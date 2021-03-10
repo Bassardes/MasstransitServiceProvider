@@ -51,9 +51,9 @@ namespace MasstransitServiceProvider
                         h.PublisherConfirmation = true;
                     });
 
-                    cfg.ConfigureEndpoints(ctx, KebabCaseEndpointNameFormatter.Instance);
                     cfg.UseConsumeFilter(typeof(CustomConsumeFilter<>), ctx);
                     cfg.UsePublishFilter(typeof(CustomPublishFilter<>), ctx);
+                    cfg.ConfigureEndpoints(ctx, KebabCaseEndpointNameFormatter.Instance);
                 });
             });
 
