@@ -1,22 +1,23 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GreenPipes;
 using MassTransit;
 using MasstransitServiceProvider.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MasstransitServiceProvider.Filters
 {
     public class CustomConsumeFilter<T> : IFilter<ConsumeContext<T>>
         where T : class
     {
+        private readonly ServiceWithContextInfo _service;
+
+        public CustomConsumeFilter(ServiceWithContextInfo service)
+        {
+            _service = service;
+        }
+        
         public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
         {
-            var serviceProvider = context.GetPayload<IServiceProvider>();
-
-            var service = serviceProvider.GetRequiredService<ServiceWithContextInfo>();
-
-            service.ContextData = context.Headers.Get<string>(nameof(ServiceWithContextInfo));
+            _service.ContextData = context.Headers.Get<string>(nameof(ServiceWithContextInfo));
 
             await next.Send(context);
         }
