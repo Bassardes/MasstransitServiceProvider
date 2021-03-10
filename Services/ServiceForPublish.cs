@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MassTransit;
 using MasstransitServiceProvider.Commands;
 
@@ -19,6 +20,11 @@ namespace MasstransitServiceProvider.Services
 
         public async Task PublishCommand()
         {
+            if (service.ContextData != "ContextDataFromController")
+            {
+                throw new Exception("ContextData not received");
+            }
+
             service.ContextData = "ChangedContextData";
             await _publishEndpoint.Publish(new ResultCommand
             {

@@ -32,8 +32,8 @@ namespace MasstransitServiceProvider
             services.AddScoped<CommandWithPublishFromServiceConsumer>();
             services.AddScoped<CommandPublishFromContextConsumer>();
             services.AddScoped<ResultCommandConsumer>();
-            services.AddScoped(typeof(CustomConsumeFilter<>));
             services.AddScoped(typeof(CustomPublishFilter<>));
+            services.AddScoped(typeof(CustomConsumeFilter<>));
 
             services.AddMassTransit(x =>
             {

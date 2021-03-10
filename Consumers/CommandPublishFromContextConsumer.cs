@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MassTransit;
 using MasstransitServiceProvider.Commands;
 using MasstransitServiceProvider.Services;
@@ -16,6 +17,11 @@ namespace MasstransitServiceProvider.Consumers
     
         public async Task Consume(ConsumeContext<CommandPublishFromContext> context)
         {
+            if (service.ContextData != "ContextDataFromController")
+            {
+                throw new Exception("ContextData not received");
+            }
+
             service.ContextData = "ChangedContextData";
             await context.Publish(new ResultCommand
             {
